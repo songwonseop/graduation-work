@@ -1,0 +1,46 @@
+
+
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<head>
+<title>서버상태 확인 Page</title>
+<link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
+</head>
+ 
+<SCRIPT TYPE="text/javascript">
+window.setTimeout('window.location.reload()',10000);
+</SCRIPT>
+ 
+ 
+<?
+function WebService()
+ {
+  $server_url ="127.0.0.1"; // 서버아이피
+  $timeout = "0.5"; // 접속을 시도하는 시간
+  $access_check=@fsockopen($server_url,5000,$errno,$errstr,$timeout); //숫자는 접속서비스 포트번호
+  if ($access_check) {
+      $ck = 'ok';
+      }
+    else {
+        $ck='접속불가';
+        }
+  @fclose($access_check);
+ 
+ if ($ck == 'ok') { ?>
+     <font color="red"><i class="fa fa-sun-o"></i></font>
+     <? } 
+     else { ?>
+         <i class="fa fa-exclamation-triangle"></i>
+ <? } 
+ } ?>
+<?
+$load = sys_getloadavg();
+$load = $load[0] * 100;
+$load = $load/400;
+?>
+<b>서버 상태 확인페이지</b><br><br>
+ 
+쾌적 : <font color="red"><i class="fa fa-sun-o"></i></font> / 보통 : <font color="gray"><i class="fa fa-cloud"></i></font> / 포화(접속장애) : <i class="fa fa-exclamation-triangle"></i><br>
+<br>
+서버 1 상태 : <? WebService() ?> <br>
+자원사용율 : <?=$load;?>%<br>
+
